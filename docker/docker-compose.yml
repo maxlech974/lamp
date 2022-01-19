@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+
+    php:
+        build: 
+            context: '../'
+            dockerfile: './docker/php/Dockerfile'
+        volumes:
+            - ./symfo/:/var/www
+        depends_on:
+            - db
+        container_name: php
+    
+    apache:
+        build:
+            context: '../'
+            dockerfile: './docker/apache/Dockerfile'
+        depends_on:
+            - php
+        ports:
+            - 8001:80
+        volumes:
+            - ./symfo/:/var/www
+        networks:
+            - ophelie
+        container_name: apache
+
+    db:
+        image: mariadb:10.3
+        ports:
+            - "6633:3306"
+        volumes:
+            - ./db/:/var/lib/mysql
+        networks:
+            - ophelie
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: ophelie
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: password
+        container_name: db
+
+    adminer:
+        image: adminer
+        ports: 
+            - 8085:8080
+        container_name: adminer
+        networks:
+            - ophelie
+
+networks:
+    ophelie:
+    
