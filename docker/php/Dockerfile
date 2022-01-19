@@ -1,4 +1,4 @@
-FROM php:7.4-fpm-buster
+FROM php:8.1-fpm-buster
 
 RUN apt-get update; \
     apt-get upgrade;
@@ -18,7 +18,7 @@ RUN apt-get install -y \
 RUN apt install -y libmagickwand-dev --no-install-recommends && \
     pecl install imagick
 
-RUN docker-php-ext-install pdo_mysql && \
+RUN docker-php-ext-install pdo pdo_mysql && \
     docker-php-ext-configure intl && \
     docker-php-ext-install intl && \
     docker-php-ext-install zip && \

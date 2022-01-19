@@ -7,9 +7,11 @@ services:
             context: '../'
             dockerfile: './docker/php/Dockerfile'
         volumes:
-            - ./symfo/:/var/www
+            - ../symfo/:/var/www
         depends_on:
             - db
+        networks:
+            - ophelie
         container_name: php
     
     apache:
@@ -21,7 +23,7 @@ services:
         ports:
             - 8001:80
         volumes:
-            - ./symfo/:/var/www
+            - ../symfo/:/var/www
         networks:
             - ophelie
         container_name: apache
